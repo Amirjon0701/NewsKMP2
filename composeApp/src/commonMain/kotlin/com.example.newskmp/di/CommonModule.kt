@@ -12,6 +12,7 @@ import com.example.newskmp.db.DatabaseDriverFactory
 import com.example.newskmp.db.provideDatabaseDriverFactory
 import com.example.newskmp.presentatation.vm.ArticlesViewModel
 import com.example.newskmp.presentatation.vm.DetailViewModel
+import com.example.newskmp.presentatation.vm.FavoriteViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import org.koin.core.module.dsl.singleOf
@@ -48,6 +49,10 @@ val viewModelModule = module {
 
     single {
         DetailViewModel(get())
+    }
+
+    single {
+        FavoriteViewModel(get())
     }
 }
 

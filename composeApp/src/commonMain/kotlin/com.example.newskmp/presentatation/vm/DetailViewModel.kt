@@ -9,7 +9,6 @@ import com.example.newskmp.presentatation.store.DetailScreenState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
-import org.jetbrains.skia.skottie.Logger
 
 class DetailViewModel(private val articleRepository: ArticleRepository): BaseSharedViewModel<DetailScreenState,DetailScreenAction, DetailScreenEvent>(DetailScreenState.Initial) {
     override fun obtainEvent(viewEvent: DetailScreenEvent) {
