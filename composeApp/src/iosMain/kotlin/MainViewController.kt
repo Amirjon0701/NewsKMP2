@@ -5,9 +5,4 @@ import com.example.newskmp.data.repository.impl.ArticleRepositoryImpl
 import com.example.newskmp.data.service.impl.ArticleServiceImpl
 import com.example.newskmp.presentatation.vm.ArticlesViewModel
 
-fun MainViewController() = ComposeUIViewController { AppScreen(
-    ArticlesViewModel(
-        ArticleRepositoryImpl(ArticleServiceImpl(HttpKtorClient().provideKtorClient(
-            getHttpClientEngine()
-        ))))
-) }
+fun MainViewController() = ComposeUIViewController { AppScreen() }

@@ -1,5 +1,6 @@
 package com.example.newskmp.presentatation.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,17 +30,20 @@ fun getPainterResource(url: String): Resource<Painter>{
 }
 
 @Composable
-fun ListView(modifier: Modifier, articles: List<Article>){
+fun ListView(modifier: Modifier, articles: List<Article>, onItemClick: (article: Article) -> Unit){
     LazyColumn {
         items(articles){
-            ListViewItem(modifier = Modifier.fillMaxWidth().wrapContentHeight(), it)
+            ListViewItem(modifier = Modifier.fillMaxWidth().wrapContentHeight(), it, onItemClick)
         }
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ListViewItem(modifier: Modifier, article: Article){
-    Card(modifier = modifier){
+fun ListViewItem(modifier: Modifier, article: Article, onItemClick: (article: Article) -> Unit){
+    Card(modifier = modifier.clickable {
+        onItemClick.invoke(article)
+    }){
         Column {
             KamelImage(resource = getPainterResource(article.urlToImage ?: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwhey.kz%2Fplaceholder-png%2F&psig=AOvVaw3lQpBKHAHk48OcT0RaUWs6&ust=1717592027157000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNjxjYf_wYYDFQAAAAAdAAAAABAE"), contentDescription = null,
                 modifier = Modifier.fillMaxWidth().height(200.dp))

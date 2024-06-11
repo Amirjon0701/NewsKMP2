@@ -59,8 +59,12 @@ kotlin {
             implementation(libs.kviewmodel.compose)
             implementation(libs.kviewmodel.odyssey)
             implementation(libs.kamel.compose)
-            implementation(libs.odyssey.core)
-            implementation(libs.odyssey.compose)
+            //implementation(libs.odyssey.core)
+            //implementation(libs.odyssey.compose)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
+            implementation(libs.voyager.tab.navigator)
+            implementation("io.insert-koin:koin-compose:1.1.2")
         }
 
         iosMain.dependencies {
