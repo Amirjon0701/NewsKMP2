@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -40,6 +41,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.android.driver)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -65,10 +68,12 @@ kotlin {
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.tab.navigator)
             implementation("io.insert-koin:koin-compose:1.1.2")
+            implementation(libs.runtime)
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.native.driver)
         }
     }
 }
@@ -109,4 +114,13 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
+
+sqldelight {
+    databases {
+        create("ArticleDB") {
+            packageName.set("com.example.newskmp.db")
+        }
+    }
+}
+
 
