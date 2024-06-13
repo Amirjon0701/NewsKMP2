@@ -2,10 +2,13 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
@@ -47,7 +50,21 @@ fun AppScreen() {
                         TabNavigationItem(ArticlesScreen())
                         TabNavigationItem(FavoriteScreen())
                     }
-                }
+                },
+//                topBar = {
+//                    TopAppBar(
+//                        title = {
+//                            Text("News")
+//                                },
+//                        actions = {
+//                            IconButton(onClick = {
+//
+//                            }){
+//                                Icon(imageVector = Icons.Filled.Search, contentDescription = null)
+//                            }
+//                        }
+//                    )
+//                }
             ){
                 CurrentTab()
             }

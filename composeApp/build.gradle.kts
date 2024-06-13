@@ -1,6 +1,9 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
@@ -32,7 +35,30 @@ kotlin {
             isStatic = true
             xcf.add(this)
         }
+//        iosTarget.binaries.all {
+//            freeCompilerArgs += "-Xg0" // Required for CrashKiOS.
+//            if (this is org.jetbrains.kotlin.gradle.plugin.mpp.Framework) {
+//                isStatic = true // Required for CrashKiOS.
+//                linkerOpts.add("-lsqlite3")
+//                embedBitcode(if (System.getenv("ENABLE_BITCODE") == "YES")"bitcode" else "marker")
+//                freeCompilerArgs += "-Xobjc-generics"
+//            }
+//        }
+        //iosTarget.binaries.findTest(NativeBuildType.DEBUG)?.linkerOpts("-lsqlite3")
+        //iosTarget.binaries.findTest(NativeBuildType.RELEASE)?.linkerOpts("-lsqlite3")
     }
+
+//    iosX64().binaries{
+//        findTest(NativeBuildType.DEBUG)?.linkerOpts("-lsqlite3")
+//    }
+//
+//    iosArm64().binaries{
+//        findTest(NativeBuildType.DEBUG)?.linkerOpts?.add("-lsqlite3")
+//    }
+//
+//    iosSimulatorArm64().binaries{
+//        findTest(NativeBuildType.DEBUG)?.linkerOpts?.add("-lsqlite3")
+//    }
     
     sourceSets {
         
@@ -114,6 +140,16 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
+fun Project.linkSqlite() {
+    project.extensions.findByType(KotlinMultiplatformExtension::class.java)?.apply {
+        targets
+            .filterIsInstance<KotlinNativeTarget>()
+            .flatMap { it.binaries }
+            .forEach { compilationUnit -> compilationUnit.linkerOpts("-lsqlite3") }
+    }
+}
+
+linkSqlite()
 
 sqldelight {
     databases {
@@ -121,6 +157,8 @@ sqldelight {
             packageName.set("com.example.newskmp.db")
         }
     }
+
+    linkSqlite = true
 }
 
 

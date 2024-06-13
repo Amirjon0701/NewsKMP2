@@ -8,4 +8,6 @@ interface ArticleRepository {
     suspend fun insertArticleToFavorite(article: Article)
 
     suspend fun getArticlesFromFavorite(): List<Article>
+
+    suspend fun searchRemoteArticles(searchText: String): List<Article>
 }
