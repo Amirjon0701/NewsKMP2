@@ -10,6 +10,7 @@ class ArticleRepositoryImpl(private val articleService: ArticleService,
     private val localDatabase: Database,
     private val articleMapper: ArticleMapper): ArticleRepository {
         private var remoteCashedArticles = emptyList<Article>()
+    private var localCashedArticles = emptyList<Article>()
     override suspend fun getArticles(): List<Article> {
         if(remoteCashedArticles.isEmpty()){
             remoteCashedArticles = articleService.getArticles().articles
@@ -22,14 +23,23 @@ class ArticleRepositoryImpl(private val articleService: ArticleService,
     }
 
     override suspend fun getArticlesFromFavorite(): List<Article> {
-        return localDatabase.getArticles().map(articleMapper::fromArticleDB)
+        localCashedArticles = localDatabase.getArticles().map(articleMapper::fromArticleDB)
+        return localCashedArticles
     }
 
     override suspend fun searchRemoteArticles(searchText: String): List<Article> {
         return remoteCashedArticles.filter {
             (it.title.contains(searchText, ignoreCase = true)
-                    && it.description.contains(searchText, ignoreCase = true)
-                    && it.content.contains(searchText, ignoreCase = true))
+                    || it.description.contains(searchText, ignoreCase = true)
+                    || it.content.contains(searchText, ignoreCase = true))
+        }.toList()
+    }
+
+    override suspend fun searchArticlesFromFavorite(searchText: String): List<Article> {
+        return localCashedArticles.filter {
+            (it.title.contains(searchText, ignoreCase = true)
+                    || it.description.contains(searchText, ignoreCase = true)
+                    || it.content.contains(searchText, ignoreCase = true))
         }.toList()
     }
 }
